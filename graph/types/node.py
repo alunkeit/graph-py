@@ -1,4 +1,5 @@
 """a very basic implementation of nodes and edges to be used in demonstration graph algorithms"""
+import collections
 __author__ = "alunkeit"
 
 class Node:
@@ -35,6 +36,14 @@ class Node:
     def edges(self):
         return self._edges
 
+    def __eq__(self, other):
+        if not isinstance(other, Node):
+            return NotImplemented   
+        return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name)  
+
 
 class Edge:
     """
@@ -42,10 +51,10 @@ class Edge:
     """
 
     def __init__(self, name: str, s: Node, t: Node, directed: bool = False):
-        self.name = name
+        self._name = name
         self._s = s
         self._t = t
-        self.directed = directed
+        self._directed = directed
         s.add_edge(self)
         t.add_edge(self)
 
@@ -63,6 +72,14 @@ class Edge:
     def s(self):
         return self._s
 
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def directed(self):
+        return self._directed
+
     def other(self, name: str) -> Node:
         if self.s.name == name:
             return self.t
@@ -75,4 +92,10 @@ class Edge:
 
     def is_directed(self) -> bool:
         return self.directed
+
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name) 
 

@@ -32,8 +32,6 @@ def load_graphml(filepath: str) -> tuple[UndirectedGraph, dict[str, Node]]:
         tgt_node = nodes_dict[tgt_id]
 
         e = Edge(edge_id, src_node, tgt_node)
-        src_node.add_edge(e)
-        tgt_node.add_edge(e)
         edges.append(e)
 
     graph = UndirectedGraph(edges, nodes_dict)
