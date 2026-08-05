@@ -1,3 +1,5 @@
+"""Implementation of Breadth First Search."""
+__author__ = "alunkeit"
 from collections import deque
 from graph.types.node import Node
 from graph.types.graph import UndirectedGraph
