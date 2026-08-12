@@ -1,64 +1,63 @@
-"""a very basic implementation of graphs for demonstration purposes"""
-from os import name
+"""Implementation of undirected graphs for algorithm demonstration."""
+from __future__ import annotations
+from types import MappingProxyType
+from typing import Iterator
+
 __author__ = "alunkeit"
 
-from graph.types.node import Node, Edge
+from graph.types.node import Node
+from graph.types.edge import Edge
 
 
 class UndirectedGraph:
-    """
-    Representing an undirected graph
-    """
+    """Class representing an undirected graph."""
 
-    def __init__(self, edges: list[Edge], nodes: dict[str, Node]):
-        self._edges = edges
-        self._nodes = nodes
+    def __init__(self, edges: list[Edge] | None = None, nodes: dict[str, Node] | None = None) -> None:
+        self._edges: list[Edge] = edges if edges is not None else []
+        self._nodes: dict[str, Node] = nodes if nodes is not None else {}
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<UndirectedGraph({len(self._edges)} _edges, {len(self._nodes)} _nodes)>"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"UndirectedGraph({len(self._edges)} _edges, {len(self._nodes)} _nodes)"
 
     @property
-    def nodes(self):
+    def nodes(self) -> dict[str, Node]:
         return self._nodes
 
     @property
-    def edges(self):
+    def edges(self) -> list[Edge]:
         return self._edges
 
-    def insert_from_nodes(self, name: str, s: Node, t: Node):
+    def insert_from_nodes(self, name: str, s: Node, t: Node) -> None:
         """
-        Insert an edge given its two endpoint _nodes.
+        Insert an edge given its two endpoint nodes.
 
-        Reuses an existing node with the same _name instead of overwriting
-        it, otherwise the edge lists of what should be the same logical
-        node would diverge (two different Node objects sharing one _name).
+        Reuses an existing node with the same name instead of overwriting
+        it to ensure node edge lists remain synchronized.
         """
         s = self._nodes.setdefault(s.name, s)
         t = self._nodes.setdefault(t.name, t)
         self._edges.append(Edge(name, s, t))
 
-    def insert_edge(self, e: Edge):
+    def insert_edge(self, e: Edge) -> None:
         """
         Insert an edge into the graph.
 
         :param e: The edge to insert
         """
         self._edges.append(e)
-        # Knoten s im Graphen registrieren oder Kante beim bestehenden Knoten anmelden
+
         if e.s.name not in self._nodes:
             self._nodes[e.s.name] = e.s
         elif self._nodes[e.s.name] is not e.s:
             self._nodes[e.s.name].add_edge(e)
 
-        # Knoten t im Graphen registrieren oder Kante beim bestehenden Knoten anmelden
         if e.t.name not in self._nodes:
             self._nodes[e.t.name] = e.t
         elif self._nodes[e.t.name] is not e.t:
             self._nodes[e.t.name].add_edge(e)
-
 
     def node(self, name: str) -> Node:
         """
@@ -70,12 +69,11 @@ class UndirectedGraph:
         try:
             return self._nodes[name]
         except KeyError:
-            raise KeyError(f"Kein Knoten mit dem Namen '{name}' im Graphen vorhanden.") from None
+            raise KeyError(f"No node with name '{name}' exists in the graph.") from None
 
-    def remove_edge(self, edge: Edge):
+    def remove_edge(self, edge: Edge) -> None:
         """
-        Remove an edge completely from the graph: from both endpoint
-        _nodes (Node._edges) and from the graph's own edge list.
+        Remove an edge completely from the graph and endpoint nodes.
         """
         edge.s.remove_edge(edge)
         edge.t.remove_edge(edge)
@@ -83,20 +81,21 @@ class UndirectedGraph:
             self._edges.remove(edge)
 
     def __getitem__(self, name: str) -> Node:
-        """Ermöglicht den Zugriff per graph["n0"] anstelle von graph.node("n0")."""
+        """Allows access via graph["n0"] instead of graph.node("n0")."""
         return self.node(name)
 
     def __contains__(self, item: str | Node) -> bool:
-        """Ermöglicht 'n0' in graph oder node in graph."""
+        """Allows 'n0' in graph or node in graph."""
         if isinstance(item, Node):
             return item.name in self._nodes
         return item in self._nodes
 
     def __len__(self) -> int:
-        """Gibt die Anzahl der Knoten im Graphen zurück (len(graph))."""
+        """Returns the number of nodes in the graph."""
         return len(self._nodes)
 
-    def __iter__(self):
-        """Ermöglicht 'for node in graph:'."""
+    def __iter__(self) -> Iterator[Node]:
+        """Allows 'for node in graph:'."""
         return iter(self._nodes.values())
+
 

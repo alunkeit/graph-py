@@ -1,78 +1,67 @@
-"""Implementation of Breadth First Search."""
-__author__ = "alunkeit"
+"""Implementation of Breadth-First Search (BFS)."""
+from __future__ import annotations
 from collections import deque
+from typing import TYPE_CHECKING
+
+__author__ = "alunkeit"
+
 from graph.types.node import Node
-from graph.types.graph import UndirectedGraph
+
+if TYPE_CHECKING:
+    from graph.types.graph import UndirectedGraph
 
 
 class BreadthFirstSearch:
-    """
-    Class implementing breadth-first search (BFS) on an instance of
-    UndirectedGraph.
-    """
+    """Class implementing breadth-first search (BFS) on an instance of UndirectedGraph."""
 
-    def __init__(self):
-        pass
+    def __init__(self, graph: UndirectedGraph) -> None:
+        self._graph: UndirectedGraph = graph
 
-    @staticmethod
-    def search(graph: UndirectedGraph, s: str, t: str) -> list[Node] | None:
+    @property
+    def graph(self) -> UndirectedGraph:
+        return self._graph
+
+    def search(self, s: str | Node, t: str | Node) -> list[Node] | None:
         """
-        Find the shortest path from the start node s to the target node t.
+        Find the shortest path from start node s to target node t.
 
-        :param graph: The graph as an UndirectedGraph object
-        :param s: Name of the start node (e.g. 'n0')
-        :param t: Name of the target node (e.g. 'n49')
+        :param s: Start node or name of the start node
+        :param t: Target node or name of the target node
         :return: List of Node objects on the shortest path from s to t,
                  or None if no path exists.
         """
-        if graph is None:
-            raise ValueError("Kein UndirectedGraph übergeben.")
+        if self._graph is None:
+            raise ValueError("Graph instance cannot be None.")
 
-        start_node = graph.node(s)
-        target_node = graph.node(t)
+        start_name = s.name if isinstance(s, Node) else s
+        target_name = t.name if isinstance(t, Node) else t
+
+        start_node = self._graph.node(start_name)
+        target_node = self._graph.node(target_name)
 
         if start_node.name == target_node.name:
             return [start_node]
 
-        # BFS queue stores paths of Node objects
-        # deque is a double-ended queue
-        queue = deque([[start_node]])
-        # stores _nodes that have already been visited
-        visited = {start_node.name}
+        queue: deque[Node] = deque([start_node])
+        parent: dict[str, Node | None] = {start_node.name: None}
 
         while queue:
-            path = queue.popleft()
-            current_node = path[-1]
+            current = queue.popleft()
 
-            # Target reached?
-            if current_node.name == target_node.name:
-                return path
+            if current.name == target_node.name:
+                path: list[Node] = []
+                curr: Node | None = target_node
+                while curr is not None:
+                    path.append(curr)
+                    curr = parent[curr.name]
+                return path[::-1]
 
-            # Iterate over all _edges outgoing from the node
-            for edge in current_node.edges:
-                # Determine the neighbor node via edge.other(current_node._name)
-                neighbor = edge.other(current_node.name)
-
-                if neighbor.name not in visited:
-                    visited.add(neighbor.name)
-                    new_path = list(path)
-                    new_path.append(neighbor)
-                    queue.append(new_path)
+            for edge in current.edges:
+                neighbor = edge.other(current.name)
+                if neighbor.name not in parent:
+                    parent[neighbor.name] = current
+                    queue.append(neighbor)
 
         return None
 
 
-if __name__ == "__main__":
-    import os
-    from graph.util.read_graph import load_graphml
-
-    graph_file = os.path.join("in/random_graph.graphml")
-    g, _ = load_graphml(graph_file)
-
-    path = BreadthFirstSearch.search(g, "n0", "n49")
-
-    if path:
-        print(f"BFS Pfad von n0 nach n49 ({len(path)-1} Kanten):")
-        print(" -> ".join([node._name for node in path]))
-    else:
-        print("Kein Pfad gefunden.")
