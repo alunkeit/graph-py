@@ -5,6 +5,8 @@
 
 A clean, modular Python library for graph data structures and graph search algorithms, featuring implementations of **Undirected Graph**, **Directed Graph**, **Breadth-First Search (BFS)**, **Depth-First Search (DFS)**, **Dijkstra's Shortest Path Algorithm**, and **Bellman-Ford Algorithm**.
 
+> **Note**: This library is built for personal learning, exploration, and hands-on experiments with graph theory topics and algorithm implementations.
+
 ---
 
 ## 🌟 Features
