@@ -2,24 +2,17 @@
 from __future__ import annotations
 from collections import deque
 from typing import TYPE_CHECKING
+from graph.search.base import SearchAlgorithm
+from graph.types.node import Node
 
 __author__ = "alunkeit"
 
-from graph.types.node import Node
-
 if TYPE_CHECKING:
-    from graph.types.graph import UndirectedGraph
+    from graph.types.graph import Graph
 
 
-class BreadthFirstSearch:
-    """Class implementing breadth-first search (BFS) on an instance of UndirectedGraph."""
-
-    def __init__(self, graph: UndirectedGraph) -> None:
-        self._graph: UndirectedGraph = graph
-
-    @property
-    def graph(self) -> UndirectedGraph:
-        return self._graph
+class BreadthFirstSearch(SearchAlgorithm):
+    """Class implementing breadth-first search (BFS) on an instance of Graph."""
 
     def search(self, s: str | Node, t: str | Node) -> list[Node] | None:
         """
@@ -56,12 +49,9 @@ class BreadthFirstSearch:
                     curr = parent[curr.name]
                 return path[::-1]
 
-            for edge in current.edges:
-                neighbor = edge.other(current.name)
+            for neighbor, _edge in self._graph.get_neighbors(current):
                 if neighbor.name not in parent:
                     parent[neighbor.name] = current
                     queue.append(neighbor)
 
         return None
-
-

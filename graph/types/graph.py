@@ -1,6 +1,6 @@
-"""Implementation of undirected graphs for algorithm demonstration."""
+"""Implementation of graph data structures for algorithm demonstration."""
 from __future__ import annotations
-from types import MappingProxyType
+from abc import ABC, abstractmethod
 from typing import Iterator
 
 __author__ = "alunkeit"
@@ -9,18 +9,18 @@ from graph.types.node import Node
 from graph.types.edge import Edge
 
 
-class UndirectedGraph:
-    """Class representing an undirected graph."""
+class Graph(ABC):
+    """Abstract base class representing a graph data structure."""
 
     def __init__(self, edges: list[Edge] | None = None, nodes: dict[str, Node] | None = None) -> None:
         self._edges: list[Edge] = edges if edges is not None else []
         self._nodes: dict[str, Node] = nodes if nodes is not None else {}
 
     def __repr__(self) -> str:
-        return f"<UndirectedGraph({len(self._edges)} _edges, {len(self._nodes)} _nodes)>"
+        return f"<{self.__class__.__name__}({len(self._edges)} _edges, {len(self._nodes)} _nodes)>"
 
     def __str__(self) -> str:
-        return f"UndirectedGraph({len(self._edges)} _edges, {len(self._nodes)} _nodes)"
+        return f"{self.__class__.__name__}({len(self._edges)} _edges, {len(self._nodes)} _nodes)"
 
     @property
     def nodes(self) -> dict[str, Node]:
@@ -30,7 +30,21 @@ class UndirectedGraph:
     def edges(self) -> list[Edge]:
         return self._edges
 
-    def insert_from_nodes(self, name: str, s: Node, t: Node) -> None:
+    @property
+    @abstractmethod
+    def is_directed(self) -> bool:
+        """Return True if the graph is directed, False otherwise."""
+
+    @abstractmethod
+    def get_neighbors(self, node: str | Node) -> list[tuple[Node, Edge]]:
+        """
+        Get outgoing neighbor nodes and connecting edges for a given node.
+
+        :param node: Node object or node name.
+        :return: List of tuples (neighbor_node, connecting_edge).
+        """
+
+    def insert_from_nodes(self, name: str, s: Node, t: Node, weight: float = 1.0) -> None:
         """
         Insert an edge given its two endpoint nodes.
 
@@ -39,7 +53,7 @@ class UndirectedGraph:
         """
         s = self._nodes.setdefault(s.name, s)
         t = self._nodes.setdefault(t.name, t)
-        self._edges.append(Edge(name, s, t))
+        self.insert_edge(Edge(name, s, t, weight=weight, directed=self.is_directed))
 
     def insert_edge(self, e: Edge) -> None:
         """
@@ -99,3 +113,34 @@ class UndirectedGraph:
         return iter(self._nodes.values())
 
 
+class UndirectedGraph(Graph):
+    """Class representing an undirected graph."""
+
+    @property
+    def is_directed(self) -> bool:
+        return False
+
+    def get_neighbors(self, node: str | Node) -> list[tuple[Node, Edge]]:
+        n = self.node(node.name) if isinstance(node, Node) else self.node(node)
+        neighbors: list[tuple[Node, Edge]] = []
+        for edge in n.edges:
+            neighbor = edge.other(n.name)
+            neighbors.append((neighbor, edge))
+        return neighbors
+
+
+class DirectedGraph(Graph):
+    """Class representing a directed graph."""
+
+    @property
+    def is_directed(self) -> bool:
+        return True
+
+    def get_neighbors(self, node: str | Node) -> list[tuple[Node, Edge]]:
+        n = self.node(node.name) if isinstance(node, Node) else self.node(node)
+        neighbors: list[tuple[Node, Edge]] = []
+        for edge in n.edges:
+            if not edge.directed or edge.s.name == n.name:
+                neighbor = edge.other(n.name)
+                neighbors.append((neighbor, edge))
+        return neighbors

@@ -17,13 +17,30 @@ def test_load_graphml_existing_file():
     assert "n0" in graph.nodes
 
 
+def test_load_weighted_graphml():
+    filepath = os.path.join("in", "weighted_graph.graphml")
+    assert os.path.exists(filepath), f"Weighted graphml file not found at {filepath}"
+
+    graph, nodes_dict = load_graphml(filepath)
+
+    assert isinstance(graph, UndirectedGraph)
+    assert len(graph.nodes) >= 30
+    assert len(graph.edges) > 0
+    # Verify edge weights are populated within [0.5, 10.0]
+    for edge in graph.edges:
+        assert 0.5 <= edge.weight <= 10.0
+
+
 def test_load_graphml_custom_content(tmp_path):
     graphml_content = """<?xml version="1.0" encoding="UTF-8"?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+  <key id="d0" for="edge" attr.name="weight" attr.type="double"/>
   <graph id="G" edgedefault="undirected">
     <node id="nA"/>
     <node id="nB"/>
-    <edge id="e1" source="nA" target="nB"/>
+    <edge id="e1" source="nA" target="nB">
+      <data key="d0">4.75</data>
+    </edge>
   </graph>
 </graphml>"""
 
@@ -37,3 +54,4 @@ def test_load_graphml_custom_content(tmp_path):
     assert "nA" in graph.nodes
     assert "nB" in graph.nodes
     assert graph.edges[0].name == "e1"
+    assert graph.edges[0].weight == 4.75

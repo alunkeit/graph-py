@@ -9,17 +9,20 @@ __author__ = "alunkeit"
 class Edge:
     """Class representing an edge in the graph."""
 
-    __slots__ = ("_name", "_s", "_t", "_directed")
+    __slots__ = ("_name", "_s", "_t", "_directed", "_weight")
 
-    def __init__(self, name: str, s: Node, t: Node, directed: bool = False) -> None:
+    def __init__(self, name: str, s: Node, t: Node, weight: float = 1.0, directed: bool = False) -> None:
         self._name: str = name
         self._s: Node = s
         self._t: Node = t
+        self._weight: float = float(weight)
         self._directed: bool = directed
         s.add_edge(self)
         t.add_edge(self)
 
     def __repr__(self) -> str:
+        if self._weight != 1.0:
+            return f"{self._name}: {self._s.name} -> {self._t.name} (weight: {self._weight})"
         return f"{self._name}: {self._s.name} -> {self._t.name}"
 
     def __str__(self) -> str:
@@ -36,6 +39,10 @@ class Edge:
     @property
     def name(self) -> str:
         return self._name
+
+    @property
+    def weight(self) -> float:
+        return self._weight
 
     @property
     def directed(self) -> bool:

@@ -11,6 +11,9 @@ except ImportError:
 
 from graph.demo.main import run_main_demo
 from graph.demo.bfs_main import run_bfs_demo
+from graph.demo.dfs_main import run_dfs_demo
+from graph.demo.dijkstra_main import run_dijkstra_demo
+from graph.demo.bellman_ford_main import run_bellman_ford_demo
 __author__ = "alunkeit"
 
 
@@ -35,8 +38,26 @@ def create_menu() -> ConsoleMenu | None:
         function=run_bfs_demo
     )
 
+    item_dfs = FunctionItem(
+        text="Load GraphML & DFS Search (dfs_main.py)",
+        function=run_dfs_demo
+    )
+
+    item_dijkstra = FunctionItem(
+        text="Dijkstra Shortest Path Demonstration (dijkstra_main.py)",
+        function=run_dijkstra_demo
+    )
+
+    item_bellman_ford = FunctionItem(
+        text="Bellman-Ford Shortest Path Demonstration (bellman_ford_main.py)",
+        function=run_bellman_ford_demo
+    )
+
     menu.append_item(item_main)
     menu.append_item(item_bfs)
+    menu.append_item(item_dfs)
+    menu.append_item(item_dijkstra)
+    menu.append_item(item_bellman_ford)
 
     return menu
 

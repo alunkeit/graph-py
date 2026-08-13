@@ -7,12 +7,13 @@ __author__ = "alunkeit"
 
 from graph.types.node import Node
 from graph.types.edge import Edge
-from graph.types.graph import UndirectedGraph
+from graph.types.graph import Graph, UndirectedGraph, DirectedGraph
 
 
-def load_graphml(filepath: str | Path) -> tuple[UndirectedGraph, dict[str, Node]]:
+def load_graphml(filepath: str | Path) -> tuple[Graph, dict[str, Node]]:
     """
-    Read a GraphML file and convert it into an UndirectedGraph object.
+    Read a GraphML file and convert it into a Graph object (DirectedGraph or UndirectedGraph).
+    Supports reading edge weights if defined via <data key="d0"> or <data key="weight">.
     """
     path = Path(filepath)
     if not path.is_file():
@@ -25,6 +26,11 @@ def load_graphml(filepath: str | Path) -> tuple[UndirectedGraph, dict[str, Node]
 
     root = tree.getroot()
     ns = {'g': 'http://graphml.graphdrawing.org/xmlns'}
+
+    graph_elem = root.find('.//g:graph', ns)
+    is_directed = False
+    if graph_elem is not None and graph_elem.attrib.get('edgedefault') == 'directed':
+        is_directed = True
 
     nodes_dict: dict[str, Node] = {}
 
@@ -41,12 +47,27 @@ def load_graphml(filepath: str | Path) -> tuple[UndirectedGraph, dict[str, Node]
         src_node = nodes_dict[src_id]
         tgt_node = nodes_dict[tgt_id]
 
-        e = Edge(edge_id, src_node, tgt_node)
+        weight = 1.0
+        for data_elem in edge_elem.findall('g:data', ns):
+            key = data_elem.attrib.get('key', '')
+            if key in ('d0', 'weight') and data_elem.text is not None:
+                try:
+                    weight = float(data_elem.text)
+                except ValueError:
+                    pass
+
+        if 'weight' in edge_elem.attrib:
+            try:
+                weight = float(edge_elem.attrib['weight'])
+            except ValueError:
+                pass
+
+        e = Edge(edge_id, src_node, tgt_node, weight=weight, directed=is_directed)
         edges.append(e)
 
-    graph = UndirectedGraph(edges, nodes_dict)
+    if is_directed:
+        graph: Graph = DirectedGraph(edges, nodes_dict)
+    else:
+        graph = UndirectedGraph(edges, nodes_dict)
+
     return graph, nodes_dict
-
-
-
-
