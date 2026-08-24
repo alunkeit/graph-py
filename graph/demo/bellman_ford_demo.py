@@ -13,7 +13,7 @@ def run_bellman_ford_demo(
     target_node: str = "n29",
 ) -> None:
     """Loads a GraphML file with positive/negative edge weights and performs Bellman-Ford Search."""
-    print("\n--- Bellman-Ford Demonstration (bellman_ford_main.py) ---")
+    print("\n--- Bellman-Ford Demonstration (bellman_ford_demo.py) ---")
     path = Path(filepath)
     if not path.exists():
         print(f"Error: File '{filepath}' not found.")

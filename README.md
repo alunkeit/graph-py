@@ -3,13 +3,13 @@
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A clean, modular Python library for graph data structures and graph search algorithms, featuring implementations of **Undirected Graph**, **Directed Graph**, **Breadth-First Search (BFS)**, **Depth-First Search (DFS)**, **Dijkstra's Shortest Path Algorithm**, and **Bellman-Ford Algorithm**.
+A clean, modular Python library for graph data structures and graph search algorithms, featuring implementations of **Undirected Graph**, **Directed Graph**, **Breadth-First Search (BFS)**, **Depth-First Search (DFS)**, **Dijkstra's Shortest Path Algorithm**, **Bellman-Ford Algorithm**, **Topological Sort**, **Kruskal's MST**, and **A* Search**.
 
 > **Note**: This library is built for personal learning, exploration, and hands-on experiments with graph theory topics and algorithm implementations.
 
 ---
 
-## 🌟 Features
+## Features
 
 - **Object-Oriented Graph Hierarchy**:
   - `Graph(ABC)`: Abstract base class defining common graph interface and neighbor traversal.
@@ -22,6 +22,9 @@ A clean, modular Python library for graph data structures and graph search algor
   - `DepthFirstSearch` (`DFS`): Stack-based graph traversal.
   - `Dijkstra` / `DijkstraSearch`: Min-heap (`heapq`) priority queue shortest path search for non-negative edge weights.
   - `BellmanFord` / `BellmanFordSearch`: Shortest path algorithm supporting positive and **negative edge weights**, with negative weight cycle detection.
+  - `TopologicalSort` / `TopologicalSortSearch`: Kahn's algorithm for linear dependency ordering and cycle detection in DAGs.
+  - `Kruskal` / `KruskalMST`: Minimum Spanning Tree algorithm using Disjoint-Set (Union-Find) with path compression.
+  - `AStar` / `AStarSearch`: Min-heap pathfinder guided by customizable distance heuristics ($f = g + h$).
 - **GraphML I/O Support**:
   - Read GraphML format files (`load_graphml`) with node IDs, edge connections, edge weights, and `edgedefault` graph types.
 - **Interactive Console Menu & Demos**:
@@ -30,7 +33,7 @@ A clean, modular Python library for graph data structures and graph search algor
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 1. **Clone the repository**:
    ```bash
@@ -43,14 +46,9 @@ A clean, modular Python library for graph data structures and graph search algor
    pip install -r requirements.txt
    ```
 
-   *(Optional: Install `console-menu` for interactive terminal menus)*:
-   ```bash
-   pip install console-menu
-   ```
-
 ---
 
-## 💡 Quick Start & Usage Examples
+## Quick Start & Usage Examples
 
 ### 1. Creating Graphs & Running Dijkstra's Shortest Path
 
@@ -121,11 +119,26 @@ path, distance = alg.search_with_distance("n0", "n29")
 
 ---
 
-## 🖥️ Running Demonstrations
+## Running Demonstrations
 
 You can execute the included demonstration modules directly from the command line:
 
 ```bash
+# Run Package Dependency Resolution demo (Topological Sort)
+python -m graph.demo.topological_sort_demo
+
+# Run Fiber Optic Network Cabling Grid demo (Kruskal MST)
+python -m graph.demo.kruskal_demo
+
+# Run 2D Spatial Map Pathfinding demo (A* Search vs Dijkstra)
+python -m graph.demo.astar_demo
+
+# Run real-world Forex Currency Arbitrage demo (Bellman-Ford Negative Cycle)
+python -m graph.demo.currency_arbitrage_demo
+
+# Run real-world German Cities (>50k pop) GPS Navigation demo (BFS vs Dijkstra)
+python -m graph.demo.gps_route_demo
+
 # Run Bellman-Ford demonstration on bellman_ford_graph.graphml (with negative weights)
 python -m graph.demo.bellman_ford_main
 
@@ -151,7 +164,7 @@ python menu.py
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 Execute unit tests with `pytest`:
 
@@ -161,6 +174,13 @@ pytest
 
 ---
 
-## 📄 License
+## Thread Safety Notes
+
+- **Concurrent Reads / Search Operations**: **Thread-safe**. All search algorithms (`BFS`, `DFS`, `Dijkstra`, `BellmanFord`) store traversal state (`visited`, `distances`, `parent`, priority queues) strictly within method-local variables. Multiple threads can safely run search algorithms concurrently on a shared `Graph` instance, provided the graph structure is not being modified.
+- **Concurrent Graph Modifications**: **Not thread-safe**. Methods that mutate graph topology (`insert_edge`, `insert_from_nodes`, `remove_edge`) modify shared Python collections (`dict`, `set`, `list`) without internal locks. If your application mutates a graph concurrently across multiple threads, synchronize access using a lock (e.g. `threading.RLock`).
+
+---
+
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

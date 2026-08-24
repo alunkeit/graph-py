@@ -1,74 +1,92 @@
-"""Console menu for graph-py using console-menu."""
+"""Interactive Console Menu for graph-py without third-party dependencies."""
 from __future__ import annotations
-try:
-    from consolemenu import ConsoleMenu
-    from consolemenu.items import FunctionItem
-    CONSOLE_MENU_AVAILABLE = True
-except ImportError:
-    ConsoleMenu = None  # type: ignore
-    FunctionItem = None  # type: ignore
-    CONSOLE_MENU_AVAILABLE = False
+import sys
+from typing import Callable
 
-from graph.demo.main import run_main_demo
+from graph.demo.create_nodes import run_main_demo
 from graph.demo.bfs_main import run_bfs_demo
 from graph.demo.dfs_main import run_dfs_demo
 from graph.demo.dijkstra_main import run_dijkstra_demo
-from graph.demo.bellman_ford_main import run_bellman_ford_demo
+from graph.demo.bellman_ford_demo import run_bellman_ford_demo
+from graph.demo.gps_route_demo import run_gps_demo
+from graph.demo.currency_arbitrage_demo import run_currency_arbitrage_demo
+from graph.demo.topological_sort_demo import run_topological_sort_demo
+from graph.demo.kruskal_demo import run_kruskal_demo
+from graph.demo.astar_demo import run_astar_demo
+
 __author__ = "alunkeit"
 
 
-def create_menu() -> ConsoleMenu | None:
-    """Creates and configures the main console menu."""
-    if not CONSOLE_MENU_AVAILABLE:
-        print("The 'console-menu' package is not installed. Please install it using 'pip install console-menu'.")
-        return None
+def get_menu_options() -> list[tuple[str, Callable[[], None]]]:
+    """Returns the list of available menu option titles and their corresponding handler functions."""
+    return [
+        ("Basic Graph Demonstration (create_nodes.py)", run_main_demo),
+        ("Load GraphML & BFS Search (bfs_main.py)", run_bfs_demo),
+        ("Load GraphML & DFS Search (dfs_main.py)", run_dfs_demo),
+        ("Dijkstra Shortest Path Demonstration (dijkstra_main.py)", run_dijkstra_demo),
+        ("Bellman-Ford Shortest Path Demonstration (bellman_ford_demo.py)", run_bellman_ford_demo),
+        ("Real-World GPS German Cities Demo (gps_route_demo.py)", run_gps_demo),
+        ("Real-World Forex Currency Arbitrage Demo (currency_arbitrage_demo.py)", run_currency_arbitrage_demo),
+        ("Package Dependency Resolution & Topological Sort (topological_sort_demo.py)", run_topological_sort_demo),
+        ("Fiber Optic Network Cable Grid & Kruskal MST (kruskal_demo.py)", run_kruskal_demo),
+        ("2D Spatial Pathfinding & A* Search (astar_demo.py)", run_astar_demo),
+    ]
 
-    menu = ConsoleMenu(
-        title="Graph-Py Console Menu",
-        subtitle="Select a demonstration or function:"
-    )
 
-    item_main = FunctionItem(
-        text="Basic Graph Demonstration (main.py)",
-        function=run_main_demo
-    )
+def display_menu() -> None:
+    """Displays the formatted CLI menu options to stdout."""
+    options = get_menu_options()
+    print("\n==========================================================================")
+    print("                      Graph-Py Console Menu")
+    print("==========================================================================")
+    for idx, (title, _func) in enumerate(options, 1):
+        print(f" {idx:2d}. {title}")
+    print("  0. Exit")
+    print("==========================================================================")
 
-    item_bfs = FunctionItem(
-        text="Load GraphML & BFS Search (bfs_main.py)",
-        function=run_bfs_demo
-    )
 
-    item_dfs = FunctionItem(
-        text="Load GraphML & DFS Search (dfs_main.py)",
-        function=run_dfs_demo
-    )
+def run_menu_loop(input_func: Callable[[str], str] = input, loop_once: bool = False) -> None:
+    """
+    Runs the main interactive menu loop.
 
-    item_dijkstra = FunctionItem(
-        text="Dijkstra Shortest Path Demonstration (dijkstra_main.py)",
-        function=run_dijkstra_demo
-    )
+    :param input_func: Function to read user input (defaults to builtin input, overridable for tests).
+    :param loop_once: If True, exits after handling a single selection (useful for non-interactive environments).
+    """
+    options = get_menu_options()
 
-    item_bellman_ford = FunctionItem(
-        text="Bellman-Ford Shortest Path Demonstration (bellman_ford_main.py)",
-        function=run_bellman_ford_demo
-    )
+    while True:
+        display_menu()
+        try:
+            choice = input_func("\nSelect an option (0-10): ").strip()
+        except (KeyboardInterrupt, EOFError):
+            print("\nExiting Graph-Py menu.")
+            break
 
-    menu.append_item(item_main)
-    menu.append_item(item_bfs)
-    menu.append_item(item_dfs)
-    menu.append_item(item_dijkstra)
-    menu.append_item(item_bellman_ford)
+        if choice in ("0", "exit", "quit", "q"):
+            print("Exiting Graph-Py menu.")
+            break
 
-    return menu
+        if choice.isdigit():
+            idx = int(choice)
+            if 1 <= idx <= len(options):
+                _title, func = options[idx - 1]
+                try:
+                    func()
+                except Exception as e:
+                    print(f"\nError executing demonstration: {e}")
+            else:
+                print(f"Invalid selection: {choice}. Please enter a number between 0 and {len(options)}.")
+        else:
+            print(f"Invalid input: '{choice}'. Please enter a valid option number.")
+
+        if loop_once:
+            break
 
 
 def main() -> None:
-    menu = create_menu()
-    if menu is not None:
-        menu.show()
+    """Main entry point for running the interactive menu."""
+    run_menu_loop()
 
 
 if __name__ == "__main__":
     main()
-
-

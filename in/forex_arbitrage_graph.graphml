@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="edge" attr.name="weight" attr.type="double"/>
+  <key id="rate" for="edge" attr.name="rate" attr.type="double"/>
+  <graph id="Forex_Exchange_Rates" edgedefault="directed">
+    <!-- Currency Nodes -->
+    <node id="USD"/>
+    <node id="EUR"/>
+    <node id="GBP"/>
+    <node id="JPY"/>
+    <node id="CAD"/>
+    <node id="CHF"/>
+
+    <!-- Directed Exchange Rates with transformed log weights: weight = -ln(rate) -->
+    <!-- Arbitrage Loop: USD -> EUR -> GBP -> JPY -> USD -->
+    <!-- Rate product: 0.92 * 0.86 * 195.5 * 0.0066 = 1.02102 (2.1% profit cycle) -->
+    <edge id="e_usd_eur" source="USD" target="EUR"><data key="d0">0.08338</data></edge>
+    <edge id="e_eur_gbp" source="EUR" target="GBP"><data key="d0">0.15082</data></edge>
+    <edge id="e_gbp_jpy" source="GBP" target="JPY"><data key="d0">-5.27555</data></edge>
+    <edge id="e_jpy_usd" source="JPY" target="USD"><data key="d0">5.02066</data></edge>
+
+    <!-- Standard Exchange Connections -->
+    <edge id="e_eur_usd" source="EUR" target="USD"><data key="d0">-0.08340</data></edge>
+    <edge id="e_gbp_usd" source="GBP" target="USD"><data key="d0">-0.24686</data></edge>
+    <edge id="e_usd_jpy" source="USD" target="JPY"><data key="d0">-5.04342</data></edge>
+    <edge id="e_jpy_eur" source="JPY" target="EUR"><data key="d0">5.13280</data></edge>
+    <edge id="e_usd_cad" source="USD" target="CAD"><data key="d0">-0.30010</data></edge>
+    <edge id="e_cad_usd" source="CAD" target="USD"><data key="d0">0.30110</data></edge>
+    <edge id="e_eur_chf" source="EUR" target="CHF"><data key="d0">0.05130</data></edge>
+    <edge id="e_chf_eur" source="CHF" target="EUR"><data key="d0">-0.04870</data></edge>
+  </graph>
+</graphml>

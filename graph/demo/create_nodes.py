@@ -5,7 +5,7 @@ __author__ = "alunkeit"
 
 def run_main_demo() -> None:
     """Demonstrates basic Node and Edge creation."""
-    print("\n--- Graph Demonstration (main.py) ---")
+    print("\n--- Graph Demonstration (create_nodes.py) ---")
     x1 = Node("x1")
     x2 = Node("x2")
     Edge("e0", x1, x2)

@@ -1,23 +1,16 @@
 import pytest
-from graph.demo.main import run_main_demo
+from graph.demo.create_nodes import run_main_demo
 from graph.demo.bfs_main import run_bfs_demo
 from graph.demo.dfs_main import run_dfs_demo
 from graph.demo.dijkstra_main import run_dijkstra_demo
-from graph.demo.bellman_ford_main import run_bellman_ford_demo
-
-try:
-    import consolemenu
-    from menu import create_menu
-    HAS_CONSOLE_MENU = True
-except ImportError:
-    create_menu = None  # type: ignore
-    HAS_CONSOLE_MENU = False
+from graph.demo.bellman_ford_demo import run_bellman_ford_demo
+from menu import get_menu_options, display_menu, run_menu_loop
 
 
 def test_run_main_demo(capsys):
     run_main_demo()
     captured = capsys.readouterr()
-    assert "Graph Demonstration (main.py)" in captured.out
+    assert "Graph Demonstration (create_nodes.py)" in captured.out
     assert "New node: x0" in captured.out
     assert "New edge: x0 -> x1" in captured.out
 
@@ -67,7 +60,7 @@ def test_run_dijkstra_demo_file_not_found(capsys):
 def test_run_bellman_ford_demo(capsys):
     run_bellman_ford_demo()
     captured = capsys.readouterr()
-    assert "Bellman-Ford Demonstration (bellman_ford_main.py)" in captured.out
+    assert "Bellman-Ford Demonstration (bellman_ford_demo.py)" in captured.out
     assert "Successfully loaded" in captured.out
     assert "Bellman-Ford shortest path from n0 to n29" in captured.out
 
@@ -78,14 +71,26 @@ def test_run_bellman_ford_demo_file_not_found(capsys):
     assert "Error: File 'non_existent.graphml' not found." in captured.out
 
 
-@pytest.mark.skipif(not HAS_CONSOLE_MENU, reason="console-menu package not installed")
-def test_create_menu():
-    menu = create_menu()
-    assert menu is not None
-    assert menu.title == "Graph-Py Console Menu"
-    assert len(menu.items) == 5
-    assert menu.items[0].text == "Basic Graph Demonstration (main.py)"
-    assert menu.items[1].text == "Load GraphML & BFS Search (bfs_main.py)"
-    assert menu.items[2].text == "Load GraphML & DFS Search (dfs_main.py)"
-    assert menu.items[3].text == "Dijkstra Shortest Path Demonstration (dijkstra_main.py)"
-    assert menu.items[4].text == "Bellman-Ford Shortest Path Demonstration (bellman_ford_main.py)"
+def test_menu_options():
+    options = get_menu_options()
+    assert len(options) == 10
+    assert options[0][0] == "Basic Graph Demonstration (create_nodes.py)"
+    assert options[1][0] == "Load GraphML & BFS Search (bfs_main.py)"
+    assert options[2][0] == "Load GraphML & DFS Search (dfs_main.py)"
+    assert options[3][0] == "Dijkstra Shortest Path Demonstration (dijkstra_main.py)"
+    assert options[4][0] == "Bellman-Ford Shortest Path Demonstration (bellman_ford_demo.py)"
+
+
+def test_display_menu(capsys):
+    display_menu()
+    captured = capsys.readouterr()
+    assert "Graph-Py Console Menu" in captured.out
+    assert "0. Exit" in captured.out
+
+
+def test_run_menu_loop_exit(capsys):
+    # Test exiting via option 0
+    inputs = ["0"]
+    run_menu_loop(input_func=lambda _: inputs.pop(0), loop_once=True)
+    captured = capsys.readouterr()
+    assert "Exiting Graph-Py menu." in captured.out
