@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="edge" attr.name="weight" attr.type="double"/>
+  <graph id="Germany_Cities_Road_Network" edgedefault="undirected">
+    <!-- North Region -->
+    <node id="Flensburg"/>
+    <node id="Kiel"/>
+    <node id="Luebeck"/>
+    <node id="Rostock"/>
+    <node id="Schwerin"/>
+    <node id="Hamburg"/>
+    <node id="Bremen"/>
+    <node id="Oldenburg"/>
+
+    <!-- Northwest / NRW Region -->
+    <node id="Osnabrueck"/>
+    <node id="Muenster"/>
+    <node id="Bielefeld"/>
+    <node id="Dortmund"/>
+    <node id="Bochum"/>
+    <node id="Essen"/>
+    <node id="Gelsenkirchen"/>
+    <node id="Duisburg"/>
+    <node id="Krefeld"/>
+    <node id="Duesseldorf"/>
+    <node id="Wuppertal"/>
+    <node id="Koeln"/>
+    <node id="Bonn"/>
+    <node id="Aachen"/>
+
+    <!-- Central / East Region -->
+    <node id="Hannover"/>
+    <node id="Braunschweig"/>
+    <node id="Wolfsburg"/>
+    <node id="Magdeburg"/>
+    <node id="Potsdam"/>
+    <node id="Berlin"/>
+    <node id="Cottbus"/>
+    <node id="Halle"/>
+    <node id="Leipzig"/>
+    <node id="Dresden"/>
+    <node id="Jena"/>
+    <node id="Erfurt"/>
+    <node id="Goettingen"/>
+    <node id="Kassel"/>
+
+    <!-- Mid-West / Rhein-Main Region -->
+    <node id="Koblenz"/>
+    <node id="Trier"/>
+    <node id="Mainz"/>
+    <node id="Wiesbaden"/>
+    <node id="Frankfurt"/>
+    <node id="Darmstadt"/>
+    <node id="Saarbruecken"/>
+    <node id="Kaiserslautern"/>
+    <node id="Mannheim"/>
+    <node id="Heidelberg"/>
+
+    <!-- South / Southwest Region -->
+    <node id="Karlsruhe"/>
+    <node id="Stuttgart"/>
+    <node id="Heilbronn"/>
+    <node id="Freiburg"/>
+    <node id="Konstanz"/>
+    <node id="Ulm"/>
+    <node id="Wuerzburg"/>
+    <node id="Nuernberg"/>
+    <node id="Regensburg"/>
+    <node id="Ingolstadt"/>
+    <node id="Augsburg"/>
+    <node id="Muenchen"/>
+
+    <!-- Edges: Travel time in minutes (weight) -->
+    <!-- North connections -->
+    <edge id="e_fl_ki" source="Flensburg" target="Kiel"><data key="d0">55.0</data></edge>
+    <edge id="e_ki_lu" source="Kiel" target="Luebeck"><data key="d0">65.0</data></edge>
+    <edge id="e_ki_hh" source="Kiel" target="Hamburg"><data key="d0">60.0</data></edge>
+    <edge id="e_lu_hh" source="Luebeck" target="Hamburg"><data key="d0">45.0</data></edge>
+    <edge id="e_lu_ro" source="Luebeck" target="Rostock"><data key="d0">80.0</data></edge>
+    <edge id="e_ro_sn" source="Rostock" target="Schwerin"><data key="d0">60.0</data></edge>
+    <edge id="e_ro_b" source="Rostock" target="Berlin"><data key="d0">130.0</data></edge>
+    <edge id="e_sn_hh" source="Schwerin" target="Hamburg"><data key="d0">75.0</data></edge>
+    <edge id="e_sn_b" source="Schwerin" target="Berlin"><data key="d0">110.0</data></edge>
+    <edge id="e_hh_hb" source="Hamburg" target="Bremen"><data key="d0">75.0</data></edge>
+    <edge id="e_hh_h" source="Hamburg" target="Hannover"><data key="d0">100.0</data></edge>
+    <edge id="e_hb_ol" source="Bremen" target="Oldenburg"><data key="d0">35.0</data></edge>
+    <edge id="e_hb_os" source="Bremen" target="Osnabrueck"><data key="d0">70.0</data></edge>
+    <edge id="e_hb_h" source="Bremen" target="Hannover"><data key="d0">75.0</data></edge>
+    <edge id="e_ol_os" source="Oldenburg" target="Osnabrueck"><data key="d0">75.0</data></edge>
+
+    <!-- NRW / Northwest connections -->
+    <edge id="e_os_ms" source="Osnabrueck" target="Muenster"><data key="d0">40.0</data></edge>
+    <edge id="e_os_bi" source="Osnabrueck" target="Bielefeld"><data key="d0">40.0</data></edge>
+    <edge id="e_ms_bi" source="Muenster" target="Bielefeld"><data key="d0">50.0</data></edge>
+    <edge id="e_ms_do" source="Muenster" target="Dortmund"><data key="d0">45.0</data></edge>
+    <edge id="e_bi_h" source="Bielefeld" target="Hannover"><data key="d0">70.0</data></edge>
+    <edge id="e_do_bo" source="Dortmund" target="Bochum"><data key="d0">15.0</data></edge>
+    <edge id="e_bo_e" source="Bochum" target="Essen"><data key="d0">15.0</data></edge>
+    <edge id="e_e_ge" source="Essen" target="Gelsenkirchen"><data key="d0">15.0</data></edge>
+    <edge id="e_e_du" source="Essen" target="Duisburg"><data key="d0">20.0</data></edge>
+    <edge id="e_du_kr" source="Duisburg" target="Krefeld"><data key="d0">20.0</data></edge>
+    <edge id="e_du_d" source="Duisburg" target="Duesseldorf"><data key="d0">25.0</data></edge>
+    <edge id="e_e_w" source="Essen" target="Wuppertal"><data key="d0">30.0</data></edge>
+    <edge id="e_do_w" source="Dortmund" target="Wuppertal"><data key="d0">35.0</data></edge>
+    <edge id="e_d_w" source="Duesseldorf" target="Wuppertal"><data key="d0">30.0</data></edge>
+    <edge id="e_d_k" source="Duesseldorf" target="Koeln"><data key="d0">35.0</data></edge>
+    <edge id="e_k_bn" source="Koeln" target="Bonn"><data key="d0">25.0</data></edge>
+    <edge id="e_k_ac" source="Koeln" target="Aachen"><data key="d0">50.0</data></edge>
+    <edge id="e_k_ko" source="Koeln" target="Koblenz"><data key="d0">70.0</data></edge>
+
+    <!-- Central & East connections -->
+    <edge id="e_h_bs" source="Hannover" target="Braunschweig"><data key="d0">45.0</data></edge>
+    <edge id="e_h_ks" source="Hannover" target="Kassel"><data key="d0">105.0</data></edge>
+    <edge id="e_h_md" source="Hannover" target="Magdeburg"><data key="d0">90.0</data></edge>
+    <edge id="e_bs_wob" source="Braunschweig" target="Wolfsburg"><data key="d0">25.0</data></edge>
+    <edge id="e_bs_md" source="Braunschweig" target="Magdeburg"><data key="d0">55.0</data></edge>
+    <edge id="e_bs_goe" source="Braunschweig" target="Goettingen"><data key="d0">70.0</data></edge>
+    <edge id="e_goe_ks" source="Goettingen" target="Kassel"><data key="d0">35.0</data></edge>
+    <edge id="e_md_p" source="Magdeburg" target="Potsdam"><data key="d0">75.0</data></edge>
+    <edge id="e_md_hal" source="Magdeburg" target="Halle"><data key="d0">55.0</data></edge>
+    <edge id="e_p_b" source="Potsdam" target="Berlin"><data key="d0">30.0</data></edge>
+    <edge id="e_b_cb" source="Berlin" target="Cottbus"><data key="d0">85.0</data></edge>
+    <edge id="e_b_l" source="Berlin" target="Leipzig"><data key="d0">110.0</data></edge>
+    <edge id="e_hal_l" source="Halle" target="Leipzig"><data key="d0">30.0</data></edge>
+    <edge id="e_l_dd" source="Leipzig" target="Dresden"><data key="d0">75.0</data></edge>
+    <edge id="e_l_j" source="Leipzig" target="Jena"><data key="d0">60.0</data></edge>
+    <edge id="e_l_ef" source="Leipzig" target="Erfurt"><data key="d0">85.0</data></edge>
+    <edge id="e_j_ef" source="Jena" target="Erfurt"><data key="d0">25.0</data></edge>
+    <edge id="e_ef_ks" source="Erfurt" target="Kassel"><data key="d0">95.0</data></edge>
+    <edge id="e_ef_wue" source="Erfurt" target="Wuerzburg"><data key="d0">115.0</data></edge>
+
+    <!-- Rhein-Main / Mid-West connections -->
+    <edge id="e_bn_ko" source="Bonn" target="Koblenz"><data key="d0">50.0</data></edge>
+    <edge id="e_ko_mz" source="Koblenz" target="Mainz"><data key="d0">60.0</data></edge>
+    <edge id="e_ko_tr" source="Koblenz" target="Trier"><data key="d0">85.0</data></edge>
+    <edge id="e_ko_ffm" source="Koblenz" target="Frankfurt"><data key="d0">80.0</data></edge>
+    <edge id="e_mz_wi" source="Mainz" target="Wiesbaden"><data key="d0">15.0</data></edge>
+    <edge id="e_mz_ffm" source="Mainz" target="Frankfurt"><data key="d0">30.0</data></edge>
+    <edge id="e_mz_da" source="Mainz" target="Darmstadt"><data key="d0">25.0</data></edge>
+    <edge id="e_ffm_da" source="Frankfurt" target="Darmstadt"><data key="d0">25.0</data></edge>
+    <edge id="e_ffm_ks" source="Frankfurt" target="Kassel"><data key="d0">115.0</data></edge>
+    <edge id="e_ffm_wue" source="Frankfurt" target="Wuerzburg"><data key="d0">75.0</data></edge>
+    <edge id="e_da_ma" source="Darmstadt" target="Mannheim"><data key="d0">35.0</data></edge>
+    <edge id="e_ma_hd" source="Mannheim" target="Heidelberg"><data key="d0">15.0</data></edge>
+    <edge id="e_ma_kl" source="Mannheim" target="Kaiserslautern"><data key="d0">50.0</data></edge>
+    <edge id="e_kl_sb" source="Kaiserslautern" target="Saarbruecken"><data key="d0">45.0</data></edge>
+    <edge id="e_tr_sb" source="Trier" target="Saarbruecken"><data key="d0">65.0</data></edge>
+    <edge id="e_ma_ka" source="Mannheim" target="Karlsruhe"><data key="d0">45.0</data></edge>
+
+    <!-- South / Southwest connections -->
+    <edge id="e_ka_s" source="Karlsruhe" target="Stuttgart"><data key="d0">50.0</data></edge>
+    <edge id="e_ka_fr" source="Karlsruhe" target="Freiburg"><data key="d0">80.0</data></edge>
+    <edge id="e_fr_kn" source="Freiburg" target="Konstanz"><data key="d0">100.0</data></edge>
+    <edge id="e_s_hn" source="Stuttgart" target="Heilbronn"><data key="d0">40.0</data></edge>
+    <edge id="e_hn_wue" source="Heilbronn" target="Wuerzburg"><data key="d0">60.0</data></edge>
+    <edge id="e_wue_nue" source="Wuerzburg" target="Nuernberg"><data key="d0">70.0</data></edge>
+    <edge id="e_nue_ing" source="Nuernberg" target="Ingolstadt"><data key="d0">55.0</data></edge>
+    <edge id="e_nue_r" source="Nuernberg" target="Regensburg"><data key="d0">70.0</data></edge>
+    <edge id="e_ing_m" source="Ingolstadt" target="Muenchen"><data key="d0">50.0</data></edge>
+    <edge id="e_ing_aux" source="Ingolstadt" target="Augsburg"><data key="d0">55.0</data></edge>
+    <edge id="e_aux_m" source="Augsburg" target="Muenchen"><data key="d0">45.0</data></edge>
+    <edge id="e_s_ul" source="Stuttgart" target="Ulm"><data key="d0">60.0</data></edge>
+    <edge id="e_ul_aux" source="Ulm" target="Augsburg"><data key="d0">50.0</data></edge>
+    <edge id="e_ul_m" source="Ulm" target="Muenchen"><data key="d0">95.0</data></edge>
+    <edge id="e_ul_kn" source="Ulm" target="Konstanz"><data key="d0">95.0</data></edge>
+    <edge id="e_r_m" source="Regensburg" target="Muenchen"><data key="d0">80.0</data></edge>
+  </graph>
+</graphml>
