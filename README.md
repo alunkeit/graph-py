@@ -27,8 +27,8 @@ A clean, modular Python library for graph data structures and graph search algor
   - `AStar` / `AStarSearch`: Min-heap pathfinder guided by customizable distance heuristics ($f = g + h$).
 - **GraphML I/O Support**:
   - Read GraphML format files (`load_graphml`) with node IDs, edge connections, edge weights, and `edgedefault` graph types.
-- **Interactive Console Menu & Demos**:
-  - Built-in interactive CLI menu (`menu.py`) and standalone demonstration scripts.
+- **Mathematical Wiki**:
+  - Comprehensive mathematical documentation, formal proofs, and complexity analyses for all supported algorithms in the [`wiki/`](wiki/README.md) directory.
 - **Unit Tested**: Full test suite using `pytest`.
 
 ---
